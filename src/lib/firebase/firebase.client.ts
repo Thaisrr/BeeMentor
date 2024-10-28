@@ -8,9 +8,6 @@ import { getFirestore } from 'firebase/firestore';
 import type { Auth } from 'firebase/auth';
 import { browser } from '$app/environment';
 
-
-// TODO: Add SDKs for Firebase products that you want to use
-
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 
