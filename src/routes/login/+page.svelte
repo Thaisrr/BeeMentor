@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authHandlers, authStore } from '../../stores/authStore';
+	import Button from '../../components/Button.svelte';
 
 	let user = {
 		email: '',
@@ -20,6 +21,7 @@
 	}
 </script>
 
+<h1>Se Connecter</h1>
 <form onsubmit={login}>
 	<div>
 		<label for="email">Email</label>
@@ -29,5 +31,5 @@
 		<label for="password">Password</label>
 		<input id="password" type="password" bind:value={user.password} >
 	</div>
-	<button type="submit">Se connecter</button>
+	<Button className="primary">Se connecter</Button>
 </form>

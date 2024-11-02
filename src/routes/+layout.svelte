@@ -2,6 +2,8 @@
 	import {onMount} from 'svelte';
 	import { auth, initializeFirebase } from '$lib/firebase/firebase.client';
 	import { authStore } from '../stores/authStore';
+	import '../app.css';
+	import Nav from '../components/Nav.svelte';
 
 	onMount(() => {
 		initializeFirebase();
@@ -14,18 +16,6 @@
 
 </script>
 
-<nav>
-	<ul>
-		<li>
-			<a href="/inscription">Inscription</a>
-		</li>
-		<li>
-			<a href="/login">Login</a>
-		</li>
-		<li>
-			<a href="/mentors">Mentors</a>
-		</li>
-	</ul>
-</nav>
+<Nav />
 
 <slot />

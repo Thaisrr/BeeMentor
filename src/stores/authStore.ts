@@ -32,6 +32,7 @@ export const authHandlers = {
 			description,
 			skills,
 			username,
+			id: user.uid,
 		});
 	},
 	login: async (email: string, password: string) => {

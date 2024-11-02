@@ -6,8 +6,25 @@
 
 </script>
 
-<h1>Mentors</h1>
+<main class="width">
+	<h1>Trouve ta mentor !</h1>
 
-{#each $mentors as mentor}
-	<UserCard user={mentor} />
-{/each}
+	<div class="grid">
+		{#each $mentors as mentor}
+			<UserCard user={mentor} />
+		{/each}
+	</div>
+</main>
+
+<style>
+	h1 {
+		text-align: center;
+		margin: 2rem 0;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1rem;
+	}
+</style>

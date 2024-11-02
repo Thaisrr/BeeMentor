@@ -1,6 +1,7 @@
 <script lang="ts">
 
 	import { authHandlers, authStore } from '../../stores/authStore';
+	import Button from '../../components/Button.svelte';
 
 	let user = {
 		username: '',
@@ -66,12 +67,12 @@
 					<div>
 						<label for="skill{i}">Compétence {i + 1}</label>
 						<input id="skill{i}" type="text" bind:value={skill} >
-						<button type="button" onclick={() => user.skills = user.skills.filter((_, index) => index !== i)}>Supprimer</button>
+						<Button className="tertiary" type="button" onclick={() => user.skills = user.skills.filter((_, index) => index !== i)}>Supprimer</Button>
 					</div>
 				{/each}
-				<button type="button" onclick={() => user.skills = [...user.skills, '']}>Ajouter une compétence</button>
+				<Button className="secondary" type="button" onclick={() => user.skills = [...user.skills, '']}>Ajouter une compétence</Button>
 				</fieldset>
 	{/if}
 
-	<button type="submit">Inscription</button>
+	<Button className="primary" type="submit">Inscription</Button>
 </form>
