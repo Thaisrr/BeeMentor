@@ -2,7 +2,7 @@
 import { writable, type Writable } from "svelte/store";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import type { User as Mentor } from "$lib/types/User";
-import { db } from '$lib/firebase/firebase.client';
+import { db } from '$lib/firebase/firebase';
 import { onMount } from 'svelte';
 
 export function useMentors(): Writable<Mentor[]> {

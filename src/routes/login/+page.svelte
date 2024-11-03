@@ -31,5 +31,12 @@
 		<label for="password">Password</label>
 		<input id="password" type="password" bind:value={user.password} >
 	</div>
-	<Button className="primary">Se connecter</Button>
+	<Button type="submit" className="primary">Se connecter</Button>
+	<p class="center">Pas encore de compte ? <a href="/inscription">Inscris toi !</a> </p>
 </form>
+
+<style>
+    .center {
+        margin-top: 1rem;
+    }
+</style>

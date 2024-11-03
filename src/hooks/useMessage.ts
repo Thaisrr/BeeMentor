@@ -1,7 +1,7 @@
 import { authStore } from '../stores/authStore';
 import { get, type Writable, writable } from 'svelte/store';
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
-import { db } from "$lib/firebase/firebase.client";
+import { collection, query, where, getDocs, orderBy, deleteDoc } from "firebase/firestore";
+import { db } from "$lib/firebase/firebase";
 import { onMount } from 'svelte';
 import type { Message } from '$lib/types/Message';
 
@@ -29,8 +29,27 @@ export const useMessage = (recipientId: string) => {
 		}
 	}
 
+	async function deleteNotifications() {
+		try {
+			const notificationsRef = collection(db, "notifications");
+			const notificationsQuery = query(
+				notificationsRef,
+				where("senderId", "==", recipientId),
+				where("recipientId", "==", currentUser?.uid)
+			);
+
+			const querySnapshot = await getDocs(notificationsQuery);
+			const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+			await Promise.all(deletePromises);
+			console.log("Notifications supprimées avec succès.");
+		} catch (error) {
+			console.error("Erreur lors de la suppression des notifications :", error);
+		}
+	}
+
 	onMount(async () => {
 		messages.set(await getMessagesBetweenUsers() as Message[]);
+		deleteNotifications();
 	});
 
 	return {

@@ -2,7 +2,7 @@
 	import type { User } from '$lib/types/User';
 	import { useMessage } from '../../../hooks/useMessage';
 	import { collection, addDoc } from "firebase/firestore";
-	import { db } from "$lib/firebase/firebase.client";
+	import { db } from "$lib/firebase/firebase";
 	import { writable } from 'svelte/store';
 	import type { Message } from '$lib/types/Message';
 	import {authStore} from '../../../stores/authStore';
@@ -32,6 +32,16 @@
 			await addDoc(messagesRef, newMessage);
 			messageContent.set('');
 			messages.set([...$messages, {...newMessage, id: ''}]);
+
+			const notificationsRef = collection(db, "notifications");
+
+			const newNotification = {
+				recipientId,
+				senderId,
+				timestamp: new Date(),
+			};
+
+			await addDoc(notificationsRef, newNotification);
 		} catch (error) {
 			console.error("Erreur lors de l'envoi du message :", error);
 			throw new Error("Impossible d'envoyer le message");
@@ -71,6 +81,7 @@
 <style>
     .center {
         text-align: center;
+				margin-bottom: 50px;
     }
 
     .skills {
@@ -97,7 +108,7 @@
 		article.right {
 			background-color: var(--secondary);
 				color: white;
-				margin-left: auto
+				margin-left: auto;
 		}
 
 		textarea {

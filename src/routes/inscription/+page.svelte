@@ -75,4 +75,11 @@
 	{/if}
 
 	<Button className="primary" type="submit">Inscription</Button>
+	<p class="center">Déjà un compte ? <a href="/login">Connectes-toi !</a> </p>
 </form>
+
+<style>
+	.center {
+			margin-top: 1rem;
+	}
+</style>

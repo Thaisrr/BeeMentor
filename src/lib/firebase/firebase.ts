@@ -1,12 +1,11 @@
 // Import the functions you need from the SDKs you need
 
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApp, getApps, deleteApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import type { FirebaseApp } from 'firebase/app';
 import type { Firestore } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import type { Auth } from 'firebase/auth';
-import { browser } from '$app/environment';
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,19 +25,17 @@ const firebaseConfig = {
 };
 
 export let app: FirebaseApp;
-export let db: Firestore;
-export let auth: Auth;
 // Initialize Firebase
 
-export const initializeFirebase = () => {
-	if (!browser) {
-		throw new Error("Can't use the Firebase client on the server.");
-	}
-	if (!app) {
-		console.log('Initializing Firebase');
-		app = initializeApp(firebaseConfig);
-		auth = getAuth(app);
-		db = getFirestore();
-		console.log('end of initializing Firebase', db)
-	}
-};
+
+let firebaseApp;
+if (!getApps().length) {
+	firebaseApp = initializeApp(firebaseConfig)
+} else {
+	firebaseApp = getApp()
+	deleteApp(firebaseApp)
+	firebaseApp = initializeApp(firebaseConfig)
+}
+
+export const db = getFirestore(firebaseApp)
+export const auth = getAuth(firebaseApp)

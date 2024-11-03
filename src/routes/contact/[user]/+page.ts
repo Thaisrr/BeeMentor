@@ -1,6 +1,6 @@
 import type {PageLoad} from './$types';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '$lib/firebase/firebase.client';
+import { db } from '$lib/firebase/firebase';
 
 export const load: PageLoad = async ({params}) => {
 	const userId = params.user;

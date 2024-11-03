@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	const {className, type, onclick, children}: {className: string, type: 'button' | 'submit', onclick?: () => void, children: Snippet} = $props();
+	const {className, type, onclick, children}: {className: 'primary' | 'secondary' | 'tertiary', type: 'button' | 'submit', onclick?: () => void, children: Snippet} = $props();
 </script>
 
 <button class={className} {type} {onclick} >

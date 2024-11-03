@@ -7,7 +7,7 @@ import {
 	//updateEmail,
 	//updatePassword
 } from 'firebase/auth';
-import { auth, db } from '$lib/firebase/firebase.client';
+import { auth, db } from '$lib/firebase/firebase';
 import {doc, setDoc} from 'firebase/firestore';
 
 type User = {
@@ -40,6 +40,7 @@ export const authHandlers = {
 	},
 	logout: async () => {
 		await signOut(auth);
+		window.location.href = '/';
 	},
 	resetPassword: async (email: string) => {
 		await sendPasswordResetEmail(auth, email);

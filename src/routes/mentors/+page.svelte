@@ -17,10 +17,6 @@
 </main>
 
 <style>
-	h1 {
-		text-align: center;
-		margin: 2rem 0;
-	}
 
 	.grid {
 		display: grid;
