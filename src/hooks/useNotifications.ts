@@ -1,26 +1,43 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, type Unsubscribe } from 'firebase/firestore';
 import { db } from '$lib/firebase/firebase';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { writable } from 'svelte/store';
+import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
+import { writable, type Writable } from 'svelte/store';
 
 export const useNotifications = () => {
-	const notificationsCount = writable(0);
+	const notificationsCount: Writable<number> = writable(0);
 	const auth = getAuth();
 
-	const fetchNotificationsCount = async (userId: string) => {
+	let unsubscribeFromNotifications: Unsubscribe | null = null;
+
+	const subscribeToNotifications = (userId: string) => {
 		const notificationsRef = collection(db, 'notifications');
 		const notificationsQuery = query(
 			notificationsRef,
 			where('recipientId', '==', userId)
 		);
-		const notificationsSnapshot = await getDocs(notificationsQuery);
-		notificationsCount.set(notificationsSnapshot.size);
-		console.log('Nombre de notifications :', notificationsSnapshot.size);
+
+		// Écoute en temps réel des changements de notifications
+		unsubscribeFromNotifications = onSnapshot(
+			notificationsQuery,
+			(snapshot) => {
+				notificationsCount.set(snapshot.size);
+				console.log('Nombre de notifications en direct :', snapshot.size);
+			},
+			(error) => {
+				console.error("Erreur lors de la surveillance des notifications :", error);
+			}
+		);
 	};
 
-	onAuthStateChanged(auth, (user) => {
+	onAuthStateChanged(auth, (user: User | null) => {
+		// Supprimez l'écouteur existant si un utilisateur se déconnecte ou change
+		if (unsubscribeFromNotifications) {
+			unsubscribeFromNotifications();
+			unsubscribeFromNotifications = null;
+		}
+
 		if (user) {
-			fetchNotificationsCount(user.uid);
+			subscribeToNotifications(user.uid);
 		} else {
 			notificationsCount.set(0);
 		}
