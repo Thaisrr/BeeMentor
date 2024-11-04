@@ -16,7 +16,6 @@ export const useNotifications = () => {
 			where('recipientId', '==', userId)
 		);
 
-		// Écoute en temps réel des changements de notifications
 		unsubscribeFromNotifications = onSnapshot(
 			notificationsQuery,
 			(snapshot) => {
@@ -30,7 +29,6 @@ export const useNotifications = () => {
 	};
 
 	onAuthStateChanged(auth, (user: User | null) => {
-		// Supprimez l'écouteur existant si un utilisateur se déconnecte ou change
 		if (unsubscribeFromNotifications) {
 			unsubscribeFromNotifications();
 			unsubscribeFromNotifications = null;
